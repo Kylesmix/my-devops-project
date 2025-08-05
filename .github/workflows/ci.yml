@@ -26,11 +26,20 @@ jobs:
           sudo apt-get install -y shellcheck
           shellcheck *.sh
 
-  deploy:
+deploy:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
 
     steps:
-      - name: Simulate Deployment
-        run: echo "🚀 Деплой завершён (симуляция)"
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t ghcr.io/${{ github.repository }}:latest .
+
+      - name: Push Docker image
+        run: docker push ghcr.io/${{ github.repository }}:latest
