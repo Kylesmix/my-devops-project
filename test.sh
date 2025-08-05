@@ -1,4 +1,11 @@
 #!/bin/bash
 
+echo "Current directory:"
+pwd
+
+echo "Files in current directory:"
+ls -la
+
 DIR="$(dirname "$0")"
-"$DIR"/app.sh | grep "App version"
+
+bash ./app.sh | grep "App version"
