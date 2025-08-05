@@ -8,4 +8,4 @@ ls -la
 
 DIR="$(dirname "$0")"
 
-bash ./app.sh | grep "App version"
+bash "$DIR/app.sh" | grep "App version"
